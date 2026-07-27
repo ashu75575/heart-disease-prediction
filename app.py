@@ -2,7 +2,7 @@ import streamlit as st
 import joblib
 import pandas as pd
 
-model = joblib.load("NV-model.pkl")
+model = joblib.load("XGBoost-tuned-model.pkl")
 scaler = joblib.load("scaler.pkl")
 expected_columns = joblib.load("columns.pkl")
 
@@ -78,10 +78,10 @@ if st.button("Predict"):
             input_df[col] = 0
 
     input_df = input_df[expected_columns]
-    
-    numerical_cols = ['Age', 'RestingBP', 'Cholesterol', 'MaxHR', 'Oldpeak']
+
+    numerical_cols = ["Age", "RestingBP", "Cholesterol", "MaxHR", "Oldpeak"]
     input_df[numerical_cols] = scaler.transform(input_df[numerical_cols])
-    
+
     prediction = model.predict(input_df)[0]
     if prediction == 1:
         st.error("Risk of Heart Stroke Detected!")
